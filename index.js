@@ -3,25 +3,25 @@ const app = express()
 app.use(express.json())
 
 let persons = [
-    { 
-      "id": "1",
-      "name": "Arto Hellas", 
-      "number": "040-123456"
+    {
+        "id": "1",
+        "name": "Arto Hellas",
+        "number": "040-123456"
     },
-    { 
-      "id": "2",
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
+    {
+        "id": "2",
+        "name": "Ada Lovelace",
+        "number": "39-44-5323523"
     },
-    { 
-      "id": "3",
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
+    {
+        "id": "3",
+        "name": "Dan Abramov",
+        "number": "12-43-234345"
     },
-    { 
-      "id": "4",
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
+    {
+        "id": "4",
+        "name": "Mary Poppendieck",
+        "number": "39-23-6423122"
     }
 ]
 
@@ -52,6 +52,38 @@ app.delete('/api/persons/:id', (request, response) => {
 
     response.status(204).end()
 })
+
+const generateId = () => {
+    const existingIds = persons.map(person => Number(person.id))
+    let randomId
+
+    do {
+        randomId = Math.floor(Math.random() * 10000)
+    } while (existingIds.includes(randomId))
+    return String(randomId)
+}
+
+app.post('/api/persons', (request, response) => {
+    const body = request.body
+    console.log(body);
+    
+    if (!body.name || !body.number) {
+        return response.status(400).json({
+            error: "information missing"
+        })
+    }
+
+    const person = {
+        id: generateId(),
+        name: body.name,
+        number: body.number
+    }
+
+    persons = persons.concat(person)
+
+    response.json(person)
+})
+
 
 const PORT = 3001
 app.listen(PORT)
