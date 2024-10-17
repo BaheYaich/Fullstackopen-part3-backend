@@ -1,2 +1,3 @@
 # Fullstackopen-part3-backend
- Backend for part 3 of the FullStackOpen course
+
+## Exercise 3.1: Phonebook backend step 1
