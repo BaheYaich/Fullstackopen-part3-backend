@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "fullstackopen part 3 backend complement",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BaheYaich/Fullstackopen-part3-backend.git"
+  },
+  "keywords": [
+    "fullstackopen"
+  ],
+  "author": "Bahe Yaich",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BaheYaich/Fullstackopen-part3-backend/issues"
+  },
+  "homepage": "https://github.com/BaheYaich/Fullstackopen-part3-backend#readme",
+  "dependencies": {
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
