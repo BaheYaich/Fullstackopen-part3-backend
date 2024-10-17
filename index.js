@@ -63,13 +63,22 @@ const generateId = () => {
     return String(randomId)
 }
 
+const isDuplicate = (personName) => {
+    const existingNames = persons.map(person => person.name)
+    return existingNames.includes(personName)
+}
+
 app.post('/api/persons', (request, response) => {
     const body = request.body
     console.log(body);
-    
+
     if (!body.name || !body.number) {
         return response.status(400).json({
             error: "information missing"
+        })
+    } else if (isDuplicate(body.name)) {
+        return response.status(400).json({
+            error: "name must be unique"
         })
     }
 
