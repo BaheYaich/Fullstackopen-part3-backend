@@ -2,6 +2,10 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const uuid = require('node-uuid')
+const cors = require('cors')
+
+app.use(express.static('dist'))
+app.use(cors())
 
 morgan.token('body', (req) => {
     return JSON.stringify(req.body)
@@ -36,6 +40,11 @@ let persons = [
     {
         "id": "4",
         "name": "Mary Poppendieck",
+        "number": "39-23-6423122"
+    },
+    {
+        "id": "5",
+        "name": "Backend person",
         "number": "39-23-6423122"
     }
 ]
@@ -113,6 +122,7 @@ function assignId(req, res, next) {
     next()
 }
 
-const PORT = 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
