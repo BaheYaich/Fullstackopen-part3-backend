@@ -3,14 +3,19 @@ const app = express()
 const morgan = require('morgan')
 const uuid = require('node-uuid')
 
+morgan.token('body', (req) => {
+    return JSON.stringify(req.body)
+});
+
+
 morgan.token('id', function getId(req) {
     return req.id
 })
 
 app.use(express.json())
-
+app.use(express.urlencoded({ extended: true })); 
 app.use(assignId)
-app.use(morgan(':id :method :url :response-time'))
+app.use(morgan(':id :method :url :response-time :body'))
 
 let persons = [
     {
