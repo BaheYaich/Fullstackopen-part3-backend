@@ -1,6 +1,16 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
+const uuid = require('node-uuid')
+
+morgan.token('id', function getId(req) {
+    return req.id
+})
+
 app.use(express.json())
+
+app.use(assignId)
+app.use(morgan(':id :method :url :response-time'))
 
 let persons = [
     {
@@ -93,6 +103,10 @@ app.post('/api/persons', (request, response) => {
     response.json(person)
 })
 
+function assignId(req, res, next) {
+    req.id = uuid.v4()
+    next()
+}
 
 const PORT = 3001
 app.listen(PORT)
