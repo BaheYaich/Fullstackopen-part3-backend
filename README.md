@@ -6,5 +6,5 @@
 
 ## Todo list
 
-- Fix CSS bugs
+- ~~Fix CSS bugs~~
 - Add database functionality
