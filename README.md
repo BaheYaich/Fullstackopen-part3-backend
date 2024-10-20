@@ -7,4 +7,6 @@
 ## Todo list
 
 - ~~Fix CSS bugs~~
-- Add database functionality
+- ~~Add database functionality~~
+- Fix delete route
+- Add more error handling and validation
