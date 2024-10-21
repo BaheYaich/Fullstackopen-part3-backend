@@ -12,6 +12,16 @@ morgan.token('body', (req) => {
     return JSON.stringify(req.body)
 });
 
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+
+    if (error.name === 'CastError') {
+        return response.status(400).send({ error: 'malformatted id' })
+    }
+
+    next(error)
+}
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(':method :url :response-time :body'))
@@ -21,6 +31,7 @@ app.get('/api/persons', (request, response) => {
         console.log(`Phonebook: fetching all contacts`)
         response.json(result)
     })
+    .catch(error => next(error))
 })
 
 app.get('/info', (request, response) => {
@@ -30,12 +41,9 @@ app.get('/info', (request, response) => {
             response.status(200).send(`
         <p>Phonebook has info for ${count} people</p>
         <p>${request_timestamp}</p>
-      `);
+      `)
         })
-        .catch(error => {
-            console.error('Error fetching document count:', error.message);
-            next(error);
-        });
+        .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response) => {
@@ -47,9 +55,7 @@ app.get('/api/persons/:id', (request, response) => {
                 response.status(404).end()
             }
         })
-        .catch(error => {
-            console.error('Error fetching person by ID:', error)
-        })
+        .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -58,9 +64,7 @@ app.delete('/api/persons/:id', (request, response) => {
             console.log(`Phonebook: ${result.name} with number ${result.number} has been deleted`)
             response.status(204).end()
         })
-        .catch(error => {
-            console.error('Error deleting person with ID:', error)
-        })
+        .catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response) => {
@@ -83,10 +87,10 @@ app.post('/api/persons', (request, response) => {
             console.log(`Phonebook: ${result.name} with number ${result.number} has been saved`)
             response.json(result)
         })
-        .catch(err => {
-            console.error('Error saving person:', err.message)
-        })
+        .catch(error => next(error))
 })
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {

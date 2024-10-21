@@ -8,5 +8,8 @@
 
 - ~~Fix CSS bugs~~
 - ~~Add database functionality~~
-- Fix delete route
-- Add more error handling and validation
+- ~~Fix delete route~~
+- ~~Add an error handler middleware~~
+- Add a PUT request handler to edit existing contacts
+- Add database validation rules
+- Fix the CSS on the notifications
