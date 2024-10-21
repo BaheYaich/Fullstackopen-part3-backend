@@ -18,6 +18,7 @@ app.use(morgan(':method :url :response-time :body'))
 
 app.get('/api/persons', (request, response) => {
     Person.find({}).then(result => {
+        console.log(`Phonebook: fetching all contacts`)
         response.json(result)
     })
 })
@@ -52,10 +53,14 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    persons = persons.filter(person => person.id !== id)
-
-    response.status(204).end()
+    Person.findByIdAndDelete(request.params.id)
+        .then(result => {
+            console.log(`Phonebook: ${result.name} with number ${result.number} has been deleted`)
+            response.status(204).end()
+        })
+        .catch(error => {
+            console.error('Error deleting person with ID:', error)
+        })
 })
 
 app.post('/api/persons', (request, response) => {
@@ -75,6 +80,7 @@ app.post('/api/persons', (request, response) => {
 
     person.save()
         .then(result => {
+            console.log(`Phonebook: ${result.name} with number ${result.number} has been saved`)
             response.json(result)
         })
         .catch(err => {
