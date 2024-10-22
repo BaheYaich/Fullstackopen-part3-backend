@@ -10,6 +10,6 @@
 - ~~Add database functionality~~
 - ~~Fix delete route~~
 - ~~Add an error handler middleware~~
-- Add a PUT request handler to edit existing contacts
-- Add database validation rules
-- Fix the CSS on the notifications
+- ~~Add a PUT request handler to edit existing contacts~~
+- ~~Add database validation rules~~
+- ~~Fix the CSS on the notifications~~
