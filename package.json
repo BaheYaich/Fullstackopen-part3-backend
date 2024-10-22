@@ -1,0 +1,33 @@
+{
+  "name": "3.1_phonebook",
+  "version": "1.0.0",
+  "description": "Exercise 1 for Part 3 FullstackOpen",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "lint": "eslint .",
+    "build:ui": "rm -rf dist && cd ../FullstackOpen/part2/phonebook_v2 && npm run build && cp -r dist ../../../Fullstackopen-part3-backend",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+  },
+  "author": "Bahe Yaich",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.7.2",
+    "morgan": "^1.10.0",
+    "node-uuid": "^1.4.8",
+    "nodemon": "^3.1.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@stylistic/eslint-plugin-js": "^2.9.0",
+    "eslint": "^9.13.0",
+    "eslint-plugin-react": "^7.37.1",
+    "globals": "^15.11.0"
+  }
+}
