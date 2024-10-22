@@ -14,7 +14,7 @@ morgan.token('body', (req) => {
 
 const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
-  }  
+}
 
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
@@ -35,7 +35,7 @@ app.get('/api/persons', (request, response) => {
         console.log(`Phonebook: fetching all contacts`)
         response.json(result)
     })
-    .catch(error => next(error))
+        .catch(error => next(error))
 })
 
 app.get('/info', (request, response, next) => {
@@ -81,15 +81,39 @@ app.post('/api/persons', (request, response, next) => {
         })
     }
 
-    const person = new Person({
+    Person.findOne({ name: name }).then(existingPerson => {
+        if (existingPerson) {
+            return response.status(400).json({ error: 'Name must be unique. Please update instead.' })
+        } else {
+            const person = new Person({ name, number })
+
+            person.save()
+                .then(savedPerson => {
+                    response.json(savedPerson)
+                })
+                .catch(error => next(error))
+        }
+    })
+    .catch(error => next(error))
+})
+
+app.put('/api/persons/:id', (request, response, next) => {
+    const body = request.body
+
+    if (!body.name || !body.number) {
+        return response.status(400).json({
+            error: 'name or number missing'
+        })
+    }
+
+    const person = {
         name: body.name,
         number: body.number,
-    })
+    }
 
-    person.save()
-        .then(result => {
-            console.log(`Phonebook: ${result.name} with number ${result.number} has been saved`)
-            response.json(result)
+    Person.findByIdAndUpdate(request.params.id, person, { new: true })
+        .then(updatedPerson => {
+            response.json(updatedPerson)
         })
         .catch(error => next(error))
 })
