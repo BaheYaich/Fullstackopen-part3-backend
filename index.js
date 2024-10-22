@@ -73,9 +73,11 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 app.post('/api/persons', (request, response, next) => {
     const body = request.body
+    const name = body.name
+    const number = body.number
     console.log(body);
 
-    if (!body.name || !body.number) {
+    if (!name || !number) {
         return response.status(400).json({
             error: "information missing"
         })
@@ -99,16 +101,18 @@ app.post('/api/persons', (request, response, next) => {
 
 app.put('/api/persons/:id', (request, response, next) => {
     const body = request.body
+    const name = body.name
+    const number = body.number
 
-    if (!body.name || !body.number) {
+    if (!name || !number) {
         return response.status(400).json({
             error: 'name or number missing'
         })
     }
 
     const person = {
-        name: body.name,
-        number: body.number,
+        name: name,
+        number: number,
     }
 
     Person.findByIdAndUpdate(request.params.id, person, { new: true })
